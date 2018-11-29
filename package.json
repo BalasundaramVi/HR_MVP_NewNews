@@ -2,9 +2,11 @@
   "name": "hr_mvp_newnews",
   "version": "1.0.0",
   "description": "Full stack monolithic app to gather local relevant news articles",
-  "main": "index.js",
+  "main": "/client/src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/server.js",
+    "build": "webpack -d --watch"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
     "eslint": "^5.9.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
