@@ -1,0 +1,24 @@
+const path = require('path');
+
+module.exports = {
+  entry: path.join(__dirname, './client/src/index.jsx'),
+  output: {
+    filename: 'nn_bundle.js',
+    path: path.join(__dirname, './public'),
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?/,
+        include: path.join(__dirname, '/src'),
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+        },
+      },
+    ],
+  },
+};
