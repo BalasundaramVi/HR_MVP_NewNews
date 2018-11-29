@@ -1,0 +1,46 @@
+{
+  "name": "hr_mvp_newnews",
+  "version": "1.0.0",
+  "description": "Full stack monolithic app to gather local relevant news articles",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BalasundaramVi/HR_MVP_NewNews.git"
+  },
+  "keywords": [
+    "News"
+  ],
+  "author": "Vignesh Balasundaram",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BalasundaramVi/HR_MVP_NewNews/issues"
+  },
+  "homepage": "https://github.com/BalasundaramVi/HR_MVP_NewNews#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.4",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2"
+  }
+}
