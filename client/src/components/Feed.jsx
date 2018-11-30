@@ -10,12 +10,13 @@ class Feed extends React.Component {
 
     this.state = {
       articles: [],
-      category: 'general',
+      category: props.category,
     };
   }
 
   componentWillMount() {
-    NAPI.getTopHeadlines('general', (articles) => {
+    const { category } = this.state;
+    NAPI.getTopHeadlines(category, (articles) => {
       console.log(articles);
       this.setState({ articles });
     });
@@ -26,7 +27,7 @@ class Feed extends React.Component {
     return (
       <div className="article_list">
         {articles.map((article, i) => (
-          <Blurb article={article} index={i} />
+          <Blurb article={article} index={i} key={`${(i + 1)}`} />
         ))}
       </div>
     );

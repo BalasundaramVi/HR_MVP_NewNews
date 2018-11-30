@@ -29,15 +29,16 @@ const timeSince = (date) => {
 const Blurb = ({ article, i }) => (
   <div className={`blurb ${i}`}>
     <div className="blurb_header">
-      <h3 className="blurb_title">{ article.title }</h3>
+      <a className="blurb_title" href={article.url}>{ article.title }</a>
       <div className="blurb_publication_info">
-        {article.author !== null ? <div className="blurb_author">{article.author}</div> : <div className="blurb_author">{article.source.name}</div>}
+        <div className="author container">
+          {article.author !== null ? <div className="blurb_author">{article.author}</div> : <div className="blurb_author">{article.source.name}</div>}
+        </div>
         {article.publishedAt !== null ? <div className="blurb_date">{`${timeSince(article.publishedAt)} ago`}</div> : ''}
       </div>
     </div>
     {article.description !== null ? <p className="description">{article.description}</p> : ''}
     {article.content !== null ? <p className="content">{article.content.split('[')[0]}</p> : ''}
-    <a className="blurb_content" href={article.url}>MORE...</a>
   </div>
 );
 
