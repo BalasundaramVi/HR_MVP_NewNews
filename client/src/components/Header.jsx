@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = () => {
   const newsSearch = (val) => {
-    console.log(val);
+    //console.log(val);
   };
 
   return (

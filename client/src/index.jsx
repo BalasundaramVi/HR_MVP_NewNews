@@ -10,6 +10,6 @@ ReactDOM.render(
 );
 
 ReactDOM.render(
-  <Feed />,
+  <Feed category="general" />,
   document.getElementById('feed'),
 );
