@@ -22,7 +22,7 @@ const Header = () => {
           <span className="weather category">WEATHER</span>
           <span className="technology category">TECHNOLOGY</span>
           <span className="world category">WORLD</span>
-          <span className="saved category">SAVED</span>
+          <span className="home category">HOME</span>
         </div>
       </div>
     </div>

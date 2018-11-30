@@ -6,6 +6,7 @@ body {
 #header {
   background-color: black;
   height: 10%;
+  overflow: visible;
 }
 
 .head {
@@ -25,6 +26,7 @@ body {
 .header-search{
   display: inline-block;
   float: right;
+  margin-top: 15px;
 }
 
 .searchbar {
@@ -33,7 +35,7 @@ body {
   font-size: 25px;
   height: 30px;
   margin: auto;
-  margin-top: 10px;
+  margin-top: 0px;
   width: 700px;
   border-radius: 10px;
   border: 1px solid rgba(128, 128, 128, 0.1);
@@ -48,7 +50,8 @@ body {
   padding: 5px;
   border: 1px solid rgba(128, 128, 128, 0.5);
   border-radius: 20%;
-  margin: 10px;
+  margin: 0px 10px;
+  float: right;
 }
 
 .button:hover {
@@ -89,11 +92,37 @@ body {
   margin-left: 0;
 }
 
-.saved {
+.home {
   border: 1px solid white;
 }
 
 .category:hover {
   cursor:pointer;
   color: rgb(120, 120, 255);
+}
+
+/***** FEED COMPONENT STYLES *****/
+#feed {
+  width: 800px;
+  margin: auto;
+}
+
+.article_list {
+  margin-top: 20px;
+}
+
+.blurb {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid darkblue;
+  border-radius: 5px;
+}
+
+.blurb_title {
+  padding-left: 5px;
+  margin: 5px 0px;
+}
+
+.blurb_content {
+  margin: 2px 0px;
 }
