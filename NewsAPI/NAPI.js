@@ -1,29 +1,31 @@
+import NewsAPI from 'newsapi';
 import NEWS_API_KEY from './NAPI_Key';
-
-const NewsAPI = require('newsapi');
 
 const newsapi = new NewsAPI(NEWS_API_KEY);
 
-class NAPI {
+class NAPI_CONSTRUCTOR {
   constructor() {
     this.current = new Date();
-    this.weekAgo = new Date(new Date() - 604800000 * 5);
+    this.weekAgo = new Date(new Date() - 604800000 * 4);
     this.date = `${this.current.getFullYear()}-${this.current.getMonth() + 1}-${this.current.getDate()}`;
     this.lastWeek = `${this.weekAgo.getFullYear()}-${this.weekAgo.getMonth() + 1}-${this.weekAgo.getDate()}`;
   }
 
-  static getTopHeadlines(cat, cb) {
+  getTopHeadlines(cat, cb, p = 1) {
     newsapi.v2.everything({
       q: cat,
       from: this.lastWeek,
       to: this.date,
       language: 'en',
+      sortBy: 'publishedAt',
+      pageSize: '100',
+      page: p,
     }).then((res) => {
       cb(res.articles);
     });
   }
 
-  static search(query, cb) {
+  search(query, cb) {
     newsapi.v2.everything({
       q: query,
       language: 'en',
@@ -37,5 +39,6 @@ class NAPI {
   }
 }
 
+const NAPI = new NAPI_CONSTRUCTOR();
 
 export default NAPI;
