@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Header = () => {
-
   const newsSearch = (val) => {
     console.log(val);
   };
@@ -13,8 +12,8 @@ const Header = () => {
       </div>
       <div className="header-search">
         <div className="search">
-          <input type="text" className="searchbar" onInput={newsSearch(this)} />
-          <span className="addMovie button">+</span>
+          <input type="text" className="searchbar" placeholder="Search..." onInput={newsSearch(this)} />
+          <span className="addMovie button">{'>'}</span>
         </div>
         <div className="topics">
           <span className="politics category">POLITICS</span>

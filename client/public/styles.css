@@ -1,0 +1,99 @@
+body {
+  margin: 0px;
+}
+
+/***** HEADER COMPONENT STYLES *****/
+#header {
+  background-color: black;
+  height: 10%;
+}
+
+.head {
+  margin: auto;
+  color: white;
+  border: 2px solid black;
+  width: 900px;
+  height: auto;
+  border-radius: 10px;
+}
+
+.title {
+  display: inline-block;
+  padding: 2px 0px;
+}
+
+.header-search{
+  display: inline-block;
+  float: right;
+}
+
+.searchbar {
+  font-family: Arial;
+  font-weight: 500;
+  font-size: 25px;
+  height: 30px;
+  margin: auto;
+  margin-top: 10px;
+  width: 700px;
+  border-radius: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.1);
+  padding: 0px 5px 0px 10px;
+}
+
+.searchbar:focus {
+  outline: none;
+}
+
+.button {
+  padding: 5px;
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  border-radius: 20%;
+  margin: 10px;
+}
+
+.button:hover {
+  cursor: pointer;
+  background: rgba(120, 120, 255, 0.9);
+}
+
+.button:active {
+  margin-left: 12px;
+  border: 0px solid white;
+  box-shadow: 0px 0px white;
+}
+
+.title {
+  width: 140px;
+}
+
+.logo {
+  padding: 10px;
+  height: 70%;
+  width: 70%;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.category {
+  font-family: "Arial", sans-serif;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  display: inline-block;
+  padding: 6px;
+  margin: 5px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.politics {
+  margin-left: 0;
+}
+
+.saved {
+  border: 1px solid white;
+}
+
+.category:hover {
+  cursor:pointer;
+  color: rgb(120, 120, 255);
+}
