@@ -1,2 +1,5 @@
 # NODE MODULES
 node_modules
+
+# Webpack bundle
+/client/public/nn_bundle.js
