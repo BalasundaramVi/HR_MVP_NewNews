@@ -28,6 +28,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "morgan": "^1.9.1",
+    "newsapi": "^2.4.0",
     "path": "^0.12.7",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
