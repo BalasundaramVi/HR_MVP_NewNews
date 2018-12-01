@@ -37,8 +37,7 @@ const Blurb = ({ article, i }) => (
         {article.publishedAt !== null ? <div className="blurb_date">{`${timeSince(article.publishedAt)} ago`}</div> : ''}
       </div>
     </div>
-    {article.description !== null ? <p className="description">{article.description}</p> : ''}
-    {article.content !== null ? <p className="content">{article.content.split('[')[0]}</p> : ''}
+    {article.description !== null ? <p className="description">{article.description}</p> : <p className="content">{article.content.split('[')[0]}</p>}
   </div>
 );
 
