@@ -31,10 +31,10 @@ class NAPI_CONSTRUCTOR {
       language: 'en',
       from: this.lastWeek,
       to: this.date,
-      sortBy: 'relevancy',
+      sortBy: 'publishedAt',
       pageSize: '100',
     }).then((res) => {
-      cb(res);
+      cb(res.articles);
     });
   }
 }

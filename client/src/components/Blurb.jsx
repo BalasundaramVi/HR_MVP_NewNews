@@ -27,7 +27,7 @@ const timeSince = (date) => {
 };
 
 const Blurb = ({ article, i }) => (
-  <div className={`blurb ${i}`}>
+  <li className={`blurb ${i}`}>
     <div className="blurb_header">
       <a className="blurb_title" href={article.url}>{ article.title }</a>
       <div className="blurb_publication_info">
@@ -38,7 +38,7 @@ const Blurb = ({ article, i }) => (
       </div>
     </div>
     {article.description !== null ? <p className="description">{article.description}</p> : <p className="content">{article.content.split('[')[0]}</p>}
-  </div>
+  </li>
 );
 
 export default Blurb;

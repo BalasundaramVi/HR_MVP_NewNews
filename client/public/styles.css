@@ -111,6 +111,11 @@ body {
 }
 
 /***** FEED COMPONENT STYLES *****/
+
+li {
+  list-style-type: none;
+}
+
 #feed {
   width: 800px;
   margin: auto;

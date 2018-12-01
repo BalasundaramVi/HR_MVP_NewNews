@@ -1,14 +1,14 @@
 import React from 'react';
 
-const Header = ({ category, changeTopic }) => (
+const Header = ({ category, changeTopic, search }) => (
   <div className="head">
     <div className="title">
       <img className="logo" alt="New News" src="https://i.imgur.com/G0zqBGD.png" />
     </div>
     <div className="header-search">
       <div className="search">
-        <input type="text" className="searchbar" placeholder="Search..." />
-        <span className="addMovie button">{'>'}</span>
+        <input type="text" id="search" className="searchbar" placeholder="Search..." onKeyPress={(e) => { search(e.key); }} />
+        <span className="search button">{'>'}</span>
       </div>
       <div className="topics">
         <span className={`politics category ${category === 'politics' ? 'active' : ''}`} tabIndex="0" role="button" onKeyDown={() => {}} onClick={() => { changeTopic('politics'); }}>POLITICS</span>
