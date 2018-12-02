@@ -1,9 +1,11 @@
 import React from 'react';
+import axios from 'axios';
 
 import Header from './Header';
 import Feed from './Feed';
 
 import NAPI from '../../../NewsAPI/NAPI';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -20,25 +22,30 @@ class App extends React.Component {
 
   componentWillMount() {
     const { topic } = this.state;
-    NAPI.getTopHeadlines(topic, (articles) => {
-      console.log(articles);
-      this.setState({ articles });
-    });
+    axios.get(`/topHeadlines/${topic}`)
+      .then((data) => {
+        const articles = data.data;
+        this.setState({ articles });
+      });
   }
 
   changeTopic(input) {
     const newTopic = input;
-    NAPI.getTopHeadlines(newTopic, (articles) => {
-      this.setState({ articles, topic: newTopic });
-    });
+    axios.get(`/topHeadlines/${newTopic}`)
+      .then((data) => {
+        const articles = data.data;
+        this.setState({ articles, topic: newTopic });
+      });
   }
 
   search(key) {
     if (key === 'Enter') {
       const query = document.getElementById('search').value;
-      NAPI.search(query, (articles) => {
-        this.setState({ articles, topic: 'query' });
-      });
+      axios.get(`/search/${query}`)
+        .then((data) => {
+          const articles = data.data;
+          this.setState({ articles, topic: 'query' });
+        });
     }
   }
 

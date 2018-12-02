@@ -1,5 +1,5 @@
-import NewsAPI from 'newsapi';
-import NEWS_API_KEY from './NAPI_Key';
+const NewsAPI = require('newsapi');
+const NEWS_API_KEY = require('./NAPI_Key');
 
 const newsapi = new NewsAPI(NEWS_API_KEY);
 
@@ -41,4 +41,4 @@ class NAPI_CONSTRUCTOR {
 
 const NAPI = new NAPI_CONSTRUCTOR();
 
-export default NAPI;
+module.exports = NAPI;
