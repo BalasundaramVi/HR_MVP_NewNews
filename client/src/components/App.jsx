@@ -21,6 +21,7 @@ class App extends React.Component {
   componentWillMount() {
     const { topic } = this.state;
     NAPI.getTopHeadlines(topic, (articles) => {
+      console.log(articles);
       this.setState({ articles });
     });
   }
