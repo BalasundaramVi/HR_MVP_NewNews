@@ -4,8 +4,7 @@ import axios from 'axios';
 import Header from './Header';
 import Feed from './Feed';
 import Login from './Login';
-
-import NAPI from '../../../NewsAPI/NAPI';
+import Signup from './Signup';
 
 
 class App extends React.Component {
@@ -20,6 +19,7 @@ class App extends React.Component {
       topic: 'general',
       articles: [],
       signup: false,
+      user: false,
     };
   }
 
@@ -59,11 +59,13 @@ class App extends React.Component {
   }
 
   render() {
-    const { topic, articles, signup } = this.state;
+    const {
+      topic, articles, signup, user,
+    } = this.state;
     return (
       <div className="app">
         <div id="header">
-          <Login />
+          <Login user={user} signup={signup} />
           <Header category={topic} changeTopic={this.changeTopic} search={this.search} />
           <div className="signup">
             <p className="signup_blurb">{'Don\'t have an account? Become a member to save & comment on articles!'}</p>
@@ -73,6 +75,7 @@ class App extends React.Component {
         <div id="feed">
           <Feed articles={articles} />
         </div>
+        {signup ? <Signup /> : false}
       </div>
     );
   }

@@ -3,6 +3,10 @@ body {
   background-color: rgba(71, 61, 139, 0.1);
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 /***** HEADER COMPONENT STYLES *****/
 #header {
   background-color: black;
@@ -121,6 +125,8 @@ li {
 #feed {
   width: 800px;
   margin: auto;
+  margin-left: 30%;
+  display: inline-block;
 }
 
 .article_list {
@@ -245,6 +251,10 @@ li {
   padding-left: 1%;
 }
 
+.username_input:focus, .password_input:focus {
+  outline: none;
+}
+
 /***** SIGNUP BUTTON STYLES *****/
 .signup {
   display: inline-block;
@@ -276,14 +286,9 @@ li {
 
 .signup_button:hover, .signup_button:focus {
   cursor: pointer;
-  color: white;
-  border: 0px solid white;
   outline: none;
 }
 
-.signup_button:active {
-  border: 0px solid white;
-}
 
 .signup_active, .signup_active:hover, .signup_active:active {
   color: lightskyblue;
@@ -292,7 +297,63 @@ li {
 
 /***** SIGNUP BUTTON STYLES *****/
 @media screen and (max-width: 1024px) {
-  .signup, .login {
+  .signup, .login, .signup_form {
       display: none !important;
   }
+
+  #feed {
+    display: block;
+    margin: auto;
+  }
+}
+
+/***** SIGNUP FORM COMPONENT STYLES *****/
+.signup_form {
+  margin-top: 10px;
+  margin-right: 10px;
+  display: inline-block;
+  float: right;
+  width: 22%;
+  background-color: black;
+  border: 4px solid black;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.signup_form .username_label, .signup_form .password_label {
+  color: white;
+}
+
+.signup_form .username, .signup_form .password {
+  margin-right: 0;
+  padding-right: 0;
+  margin-left: 10px;
+  width: 90%;
+}
+
+.signup_form .username_input, .signup_form .password_input {
+  width: 60%;
+}
+
+.addAccount {
+  margin: 2px;
+  margin-top: 5px;
+  padding: 2px;
+}
+
+.addAccount_button {
+  background-color: darkslateblue;
+  width: 45%;
+  padding: 5px;
+  margin: auto;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid white;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.addAccount_button:hover {
+  border: 1px solid darkslateblue;
+  cursor: pointer;
 }
