@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import Header from './Header';
 import Feed from './Feed';
+import Login from './Login';
 
 import NAPI from '../../../NewsAPI/NAPI';
 
@@ -13,10 +14,12 @@ class App extends React.Component {
 
     this.changeTopic = this.changeTopic.bind(this);
     this.search = this.search.bind(this);
+    this.addUser = this.addUser.bind(this);
 
     this.state = {
       topic: 'general',
       articles: [],
+      signup: false,
     };
   }
 
@@ -38,6 +41,12 @@ class App extends React.Component {
       });
   }
 
+  addUser() {
+    const newState = this.state;
+    newState.signup = !newState.signup;
+    this.setState(newState);
+  }
+
   search(key) {
     if (key === 'Enter') {
       const query = document.getElementById('search').value;
@@ -50,11 +59,16 @@ class App extends React.Component {
   }
 
   render() {
-    const { topic, articles } = this.state;
+    const { topic, articles, signup } = this.state;
     return (
       <div className="app">
         <div id="header">
+          <Login />
           <Header category={topic} changeTopic={this.changeTopic} search={this.search} />
+          <div className="signup">
+            <p className="signup_blurb">{'Don\'t have an account? Become a member to save & comment on articles!'}</p>
+            <div tabIndex="-7" role="button" className={`signup_button ${signup ? 'signup_active' : ''}`} onKeyDown={() => {}} onClick={this.addUser}>SIGNUP</div>
+          </div>
         </div>
         <div id="feed">
           <Feed articles={articles} />

@@ -17,6 +17,28 @@ app.use(express.static(path.join(__dirname, './../client/public')));
 // TOP ARTICLE RETRIEVAL
 app.get('/topHeadlines/:topic', (req, res) => {
   NAPI.getTopHeadlines(req.params.topic, (articles) => {
+    for (let i = 0; i < articles.length; i += 1) {
+      const article = articles[i];
+      DB.Article.findAll({
+        where: {
+          title: article.title,
+        },
+      }).then((docs) => {
+        if (docs.length === 0) {
+          DB.Article.create({
+            author: article.author,
+            content: article.content,
+            description: article.description,
+            publishedAt: article.publishedAt,
+            sourceID: article.source.id,
+            sourceName: article.source.name,
+            title: article.title,
+            url: article.url,
+            urlToImage: article.urlToImage,
+          });
+        }
+      });
+    }
     res.status(200).send(articles);
   });
 });
