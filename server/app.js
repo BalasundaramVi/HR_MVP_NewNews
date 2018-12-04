@@ -172,7 +172,6 @@ app.post('/articles/save', (req, res) => {
       userID,
       articleID,
     }).then((doc) => {
-      console.log(doc);
       res.send(doc);
     }).catch((err) => {
       res.send(err);

@@ -179,11 +179,9 @@ class App extends React.Component {
       }).then((loggedIn) => {
         if (loggedIn.data !== false) {
           const user = loggedIn.data[0];
-          console.log(user);
           this.setState({ user });
           axios.get(`/users/${user.id}/savedArticles`)
             .then((docs) => {
-              console.log(docs.data);
               this.setState({ saved: docs.data });
             });
         }
@@ -219,6 +217,7 @@ class App extends React.Component {
           articles,
           user,
         });
+        document.getElementById(`add_comment_${index}`).value = '';
       });
     }
   }
