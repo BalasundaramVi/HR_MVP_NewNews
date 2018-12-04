@@ -1,4 +1,5 @@
 const express = require('express');
+const Promise = require('bluebird');
 
 const path = require('path');
 const parser = require('body-parser');
@@ -109,6 +110,38 @@ app.post('/users/login', (req, res) => {
     } else {
       res.send(doc);
     }
+  });
+});
+
+const getArticlesByID = (id) => {
+  return DB.Article.findAll({
+    where: {
+      id,
+    },
+  }).then(data => (data[0]));
+};
+
+app.get('/users/:id/savedArticles', (req, res) => {
+  const { id } = req.params;
+  DB.savedArticles.findAll({
+    attributes: ['articleID'],
+    where: {
+      userID: id,
+    },
+  }).then((results) => {
+    const articleIDs = [];
+    results.forEach((article) => {
+      articleIDs.push(article.articleID);
+    });
+    DB.Article.findAll({
+      where: {
+        id: {
+          [DB.Op.or]: articleIDs,
+        },
+      },
+    }).then((articles) => {
+      res.send(articles);
+    });
   });
 });
 

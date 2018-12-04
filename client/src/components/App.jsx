@@ -23,11 +23,12 @@ class App extends React.Component {
       articles: [],
       signup: false,
       user: false,
+      saved: [],
     };
   }
 
   componentWillMount() {
-    const { topic, user } = this.state;
+    const { topic } = this.state;
     axios.get(`/topHeadlines/${topic}`)
       .then((data) => {
         const articles = data.data;
@@ -36,13 +37,6 @@ class App extends React.Component {
   }
 
   changeTopic(input) {
-    const { user } = this.state;
-    let userID;
-    if (user === false) {
-      userID = false;
-    } else {
-      userID = user.id;
-    }
     const newTopic = input;
     axios.get(`/topHeadlines/${newTopic}`)
       .then((data) => {
@@ -78,9 +72,13 @@ class App extends React.Component {
       axios.post('/articles/save', {
         user,
         article,
-      }).then((data) => {
+      }).then(() => {
         newState.articles[index].saved = true;
-        this.setState(newState);
+        axios.get(`/users/${user.id}/savedArticles`)
+        .then((docs) => {
+          newState.saved = docs.data;
+          this.setState(newState);
+        });
       }).catch((err) => {
         alert('uh oh, something went wrong');
         console.log(err);
@@ -97,7 +95,12 @@ class App extends React.Component {
         password,
       }).then((loggedIn) => {
         if (loggedIn.data !== false) {
-          this.setState({ user: loggedIn.data[0] });
+          const user = loggedIn.data[0];
+          this.setState({ user });
+          axios.get(`/users/${user.id}/savedArticles`)
+            .then((docs) => {
+              this.setState({ saved: docs.data });
+            });
         }
       });
     }
@@ -105,7 +108,7 @@ class App extends React.Component {
 
   render() {
     const {
-      topic, articles, signup, user,
+      topic, articles, signup, user, saved,
     } = this.state;
     return (
       <div className="app">
@@ -115,7 +118,7 @@ class App extends React.Component {
           {user === false ? <SignupBlurb signup={signup} addUser={this.addUser} /> : '' }
         </div>
         <div id="feed">
-          <Feed save={this.saveArticle} articles={articles} />
+          <Feed save={this.saveArticle} saved={saved} articles={articles} />
         </div>
         {(signup && (user === false)) ? <Signup addUser={this.addUser} /> : false}
       </div>

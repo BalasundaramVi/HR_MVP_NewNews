@@ -114,3 +114,5 @@ module.exports.User = User;
 module.exports.Article = Article;
 module.exports.Comment = Comment;
 module.exports.savedArticles = savedArticles;
+module.exports.sequelize = sequelize;
+module.exports.Op = Sequelize.Op;
