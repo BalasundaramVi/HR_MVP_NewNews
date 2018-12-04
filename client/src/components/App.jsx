@@ -5,7 +5,8 @@ import Header from './Header';
 import Feed from './Feed';
 import Login from './Login';
 import Signup from './Signup';
-
+import UserInfo from './UserInfo';
+import SignupBlurb from './SignupBlurb';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class App extends React.Component {
     this.changeTopic = this.changeTopic.bind(this);
     this.search = this.search.bind(this);
     this.addUser = this.addUser.bind(this);
+    this.signIn = this.signIn.bind(this);
 
     this.state = {
       topic: 'general',
@@ -58,24 +60,37 @@ class App extends React.Component {
     }
   }
 
+  signIn(e) {
+    const username = document.getElementById('username_input').value;
+    const password = document.getElementById('password_input').value;
+    if (e.key === 'Enter') {
+      axios.post('/users/login', {
+        username,
+        password,
+      }).then((loggedIn) => {
+        if (loggedIn.data !== false) {
+          this.setState({ user: loggedIn.data[0] });
+        }
+      });
+    }
+  }
+
   render() {
     const {
       topic, articles, signup, user,
     } = this.state;
+    console.log(user);
     return (
       <div className="app">
         <div id="header">
-          <Login user={user} signup={signup} />
+          {user === false ? <Login user={user} signup={signup} signIn={this.signIn} /> : <UserInfo user={user} />}
           <Header category={topic} changeTopic={this.changeTopic} search={this.search} />
-          <div className="signup">
-            <p className="signup_blurb">{'Don\'t have an account? Become a member to save & comment on articles!'}</p>
-            <div tabIndex="-7" role="button" className={`signup_button ${signup ? 'signup_active' : ''}`} onKeyDown={() => {}} onClick={this.addUser}>SIGNUP</div>
-          </div>
+          {user === false ? <SignupBlurb signup={signup} addUser={this.addUser} /> : '' }
         </div>
         <div id="feed">
           <Feed articles={articles} />
         </div>
-        {signup ? <Signup /> : false}
+        {(signup && (user === false)) ? <Signup addUser={this.addUser} /> : false}
       </div>
     );
   }

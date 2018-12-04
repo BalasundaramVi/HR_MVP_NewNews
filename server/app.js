@@ -14,7 +14,7 @@ app.use(morgan('dev'));
 
 app.use(express.static(path.join(__dirname, './../client/public')));
 
-// TOP ARTICLE RETRIEVAL
+// ARTICLE RETRIEVAL
 app.get('/topHeadlines/:topic', (req, res) => {
   NAPI.getTopHeadlines(req.params.topic, (articles) => {
     for (let i = 0; i < articles.length; i += 1) {
@@ -46,6 +46,45 @@ app.get('/topHeadlines/:topic', (req, res) => {
 app.get('/search/:query', (req, res) => {
   NAPI.search(req.params.query, (articles) => {
     res.status(200).send(articles);
+  });
+});
+
+// USER MANAGEMENT
+app.post('/users/createUser', (req, res) => {
+  const { username, password } = req.body;
+  DB.User.findAll({
+    where: {
+      username,
+    },
+  }).then((doc) => {
+    if (doc.length !== 0) {
+      res.send(false);
+    } else {
+      DB.User.create({
+        username,
+        password,
+        saveCount: 0,
+        commentCount: 0,
+      }).then(() => {
+        res.send(true);
+      });
+    }
+  });
+});
+
+app.post('/users/login', (req, res) => {
+  const { username, password } = req.body;
+  DB.User.findAll({
+    where: {
+      username,
+      password,
+    },
+  }).then((doc) => {
+    if (doc.length === 0) {
+      res.send(false);
+    } else {
+      res.send(doc);
+    }
   });
 });
 

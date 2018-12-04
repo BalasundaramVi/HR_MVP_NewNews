@@ -136,18 +136,21 @@ li {
 .blurb {
   margin: 5px;
   margin-bottom: 10px;
-  padding: 5px;
-  border: 2px solid black;
-  box-shadow: 1px 1px black;
+  border: 1px solid black;
   border-radius: 2px;
   font-family: Helvetica;
   background-color: white;
+}
+
+.blurb_header, .description {
+  padding: 5px 10px;
 }
 
 .blurb_header {
   border-bottom: 1px solid darkslateblue;
   max-height: 55px;
   overflow: hidden;
+  background-color: rgba(173, 216, 230, 0.6);
 }
 
 .blurb_title {
@@ -199,8 +202,34 @@ li {
   margin: 2px 0px;
 }
 
+.description {
+  margin: 10px 0px 5px 0px;
+}
+
+.add_comment {
+  display: inline-block;
+  float: right;
+  margin: 0px auto;
+  width: 90%;
+}
+
+.save_icon, .comment_icon {
+  padding: 0px 5px;
+}
+
+.comment_icon {
+  display: inline-block;
+  float:right;
+}
+
+.user_interact {
+  padding: 8px;
+  padding-bottom: 0;
+  background-color: rgba(173, 216, 230, 0.5);
+}
+
 /***** LOGIN COMPONENT STYLES *****/
-.login {
+.login, .user_details {
   display: inline-block;
   width: 22%;
   max-width: 23%;
@@ -295,9 +324,13 @@ li {
   border: 0px solid white;
 }
 
+.password_fail {
+  border: 1px solid red;
+}
+
 /***** SIGNUP BUTTON STYLES *****/
 @media screen and (max-width: 1024px) {
-  .signup, .login, .signup_form {
+  .signup, .login, .signup_form, .user_details {
       display: none !important;
   }
 
@@ -356,4 +389,32 @@ li {
 .addAccount_button:hover {
   border: 1px solid darkslateblue;
   cursor: pointer;
+}
+
+/***** USER DETAILS COMPONENT STYLES *****/
+.user {
+  color:white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  padding: 4px;
+  margin-top: 2px;
+  padding-top: 2px;
+}
+
+.saved_label, .comment_label {
+  color: white;
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 2px 10px;
+}
+
+.saved_count, .comment_count {
+  color: lightblue;
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 2px 10px;
+}
+
+.user, .saved, .comments {
+  margin-left: 150px;
 }
