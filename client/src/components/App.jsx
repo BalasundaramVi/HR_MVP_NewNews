@@ -27,7 +27,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    const { topic } = this.state;
+    const { topic, user } = this.state;
     axios.get(`/topHeadlines/${topic}`)
       .then((data) => {
         const articles = data.data;
@@ -36,6 +36,13 @@ class App extends React.Component {
   }
 
   changeTopic(input) {
+    const { user } = this.state;
+    let userID;
+    if (user === false) {
+      userID = false;
+    } else {
+      userID = user.id;
+    }
     const newTopic = input;
     axios.get(`/topHeadlines/${newTopic}`)
       .then((data) => {
@@ -64,7 +71,6 @@ class App extends React.Component {
   saveArticle(index) {
     const { user } = this.state;
     const newState = this.state;
-    newState.articles[index].saved = true;
     const article = newState.articles[index];
     if (user === false) {
       alert('must be signed in to save comments!');
@@ -73,12 +79,12 @@ class App extends React.Component {
         user,
         article,
       }).then((data) => {
+        newState.articles[index].saved = true;
         this.setState(newState);
-        console.log(newState);
       }).catch((err) => {
         alert('uh oh, something went wrong');
         console.log(err);
-      })
+      });
     }
   }
 
@@ -101,7 +107,6 @@ class App extends React.Component {
     const {
       topic, articles, signup, user,
     } = this.state;
-    console.log(user);
     return (
       <div className="app">
         <div id="header">

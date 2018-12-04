@@ -4,6 +4,7 @@ const sequelize = new Sequelize('vb_mvp_nn', 'student', 'student', {
   host: 'localhost',
   dialect: 'postgres',
   operatorsAliases: false,
+  logging: false,
 });
 
 sequelize

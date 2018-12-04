@@ -16,7 +16,37 @@ app.use(express.static(path.join(__dirname, './../client/public')));
 
 // ARTICLE RETRIEVAL
 app.get('/topHeadlines/:topic', (req, res) => {
-  NAPI.getTopHeadlines(req.params.topic, (articles) => {
+  const { topic } = req.params;
+  NAPI.getTopHeadlines(topic, (articles) => {
+    for (let i = 0; i < articles.length; i += 1) {
+      const article = articles[i];
+      DB.Article.findAll({
+        where: {
+          title: article.title,
+          author: article.author,
+        },
+      }).then((docs) => {
+        if (docs.length === 0) {
+          DB.Article.create({
+            author: article.author,
+            content: article.content,
+            description: article.description,
+            publishedAt: article.publishedAt,
+            sourceID: article.source.id,
+            sourceName: article.source.name,
+            title: article.title,
+            url: article.url,
+            urlToImage: article.urlToImage,
+          });
+        }
+      });
+    }
+    res.send(articles);
+  });
+});
+
+app.get('/search/:query', (req, res) => {
+  NAPI.search(req.params.query, (articles) => {
     for (let i = 0; i < articles.length; i += 1) {
       const article = articles[i];
       DB.Article.findAll({
@@ -39,12 +69,6 @@ app.get('/topHeadlines/:topic', (req, res) => {
         }
       });
     }
-    res.status(200).send(articles);
-  });
-});
-
-app.get('/search/:query', (req, res) => {
-  NAPI.search(req.params.query, (articles) => {
     res.status(200).send(articles);
   });
 });
@@ -91,14 +115,14 @@ app.post('/users/login', (req, res) => {
 // ARTICLE MANAGEMENT
 app.post('/articles/save', (req, res) => {
   const userID = req.body.user.id;
-  const article = req.body.article;
+  const { article } = req.body;
   DB.Article.findAll({
     where: {
       title: article.title,
       author: article.author,
     }
   }).then((data) => {
-    articleID = data[0].id;
+    const articleID = data[0].id;
     DB.savedArticles.create({
       userID,
       articleID,

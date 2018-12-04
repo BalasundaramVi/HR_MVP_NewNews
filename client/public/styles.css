@@ -8,9 +8,9 @@ body {
 }
 
 /***** HEADER COMPONENT STYLES *****/
-#header {
+#header, #header_static {
   background-color: black;
-  height: 10%;
+  height: auto;
   overflow: visible;
 }
 
@@ -130,7 +130,8 @@ li {
 }
 
 .article_list {
-  margin-top: 20px;
+  padding-top: 10px;
+  margin-top: 0px;
 }
 
 .blurb {
@@ -223,7 +224,7 @@ li {
 }
 
 svg.saved_article {
-  background-color: blue;
+  background-color: rgba(0, 0, 255, 0.5);
 }
 
 .user_interact {
