@@ -130,28 +130,30 @@ app.get('/users/:id/savedArticles', (req, res) => {
     },
   }).then((results) => {
     const articleIDs = [];
-
-    DB.User.update(
-      { saveCount: results.length },
-      {
-        where: {
-          id,
-        },
-      },
-    );
-
     results.forEach((article) => {
       articleIDs.push(article.articleID);
     });
-    DB.Article.findAll({
-      where: {
-        id: {
-          [DB.Op.or]: articleIDs,
+    if (articleIDs.length === 0) {
+      res.send([]);
+    } else {
+      DB.User.update(
+        { saveCount: results.length },
+        {
+          where: {
+            id,
+          },
         },
-      },
-    }).then((articles) => {
-      res.send(articles);
-    });
+      );
+      DB.Article.findAll({
+        where: {
+          id: {
+            [DB.Op.or]: articleIDs,
+          },
+        },
+      }).then((articles) => {
+        res.send(articles);
+      });
+    }
   });
 });
 
@@ -170,10 +172,12 @@ app.post('/articles/save', (req, res) => {
       userID,
       articleID,
     }).then((doc) => {
+      console.log(doc);
       res.send(doc);
     }).catch((err) => {
       res.send(err);
     });
+
   }).catch((error) => {
     res.send(error);
   });

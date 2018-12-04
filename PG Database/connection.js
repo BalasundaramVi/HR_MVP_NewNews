@@ -75,7 +75,6 @@ const Comment = sequelize.define('comment', {
 
   articleAuthor: {
     type: Sequelize.TEXT,
-    allowNull: false,
   },
 
   articleTitle: {

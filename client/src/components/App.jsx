@@ -112,7 +112,34 @@ class App extends React.Component {
       axios.get(`/search/${query}`)
         .then((data) => {
           const articles = data.data;
-          this.setState({ articles, topic: 'query' });
+          axios.post('/comments/getAll', {
+            articles,
+          }).then((res) => {
+            const hash = {};
+            const comments = res.data;
+            for (let i = 0; i < comments.length; i += 1) {
+              const hashArt = comments[i].articleTitle;
+              if (hash[hashArt] === undefined) {
+                hash[hashArt] = [{
+                  text: comments[i].text,
+                  author: comments[i].username,
+                }];
+              } else {
+                hash[hashArt].push({
+                  text: comments[i].text,
+                  author: comments[i].username,
+                });
+              }
+            }
+            for (let i = 0; i < articles.length; i += 1) {
+              if (hash[articles[i].title] === undefined) {
+                articles[i].comments = [];
+              } else {
+                articles[i].comments = hash[articles[i].title];
+              }
+            }
+            this.setState({ articles, topic: 'query' });
+          });
         });
     }
   }
@@ -156,6 +183,7 @@ class App extends React.Component {
           this.setState({ user });
           axios.get(`/users/${user.id}/savedArticles`)
             .then((docs) => {
+              console.log(docs.data);
               this.setState({ saved: docs.data });
             });
         }
@@ -164,24 +192,23 @@ class App extends React.Component {
   }
 
   addComment(index) {
-    const text = document.getElementById(`add_comment_${index}`).value;
     const { user, articles } = this.state;
-    const article = articles[index];
-    if (article.comments === undefined) {
-      article.comments = [{
-        text,
-        author: user.username,
-      }];
-    } else {
-      article.comments.push({
-        text,
-        author: user.username,
-      });
-    }
-
     if (user === false) {
       alert('must be signed in to comment!');
     } else {
+      const text = document.getElementById(`add_comment_${index}`).value;
+      const article = articles[index];
+      if (article.comments === undefined) {
+        article.comments = [{
+          text,
+          author: user.username,
+        }];
+      } else {
+        article.comments.push({
+          text,
+          author: user.username,
+        });
+      }
       user.commentCount += 1;
       axios.post('/comments/newComment', {
         text,
