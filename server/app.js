@@ -130,6 +130,16 @@ app.get('/users/:id/savedArticles', (req, res) => {
     },
   }).then((results) => {
     const articleIDs = [];
+
+    DB.User.update(
+      { saveCount: results.length },
+      {
+        where: {
+          id,
+        },
+      },
+    );
+
     results.forEach((article) => {
       articleIDs.push(article.articleID);
     });
@@ -169,12 +179,85 @@ app.post('/articles/save', (req, res) => {
   });
 });
 
-// ARTICLE MANAGEMENT
+// COMMENT MANAGEMENT
 app.post('/comments/newComment', (req, res) => {
-  const { content } = req.body;
-  // TO-DO
-  res.send();
-})
+  const { text, user, article } = req.body;
+  if (text === '') {
+    res.end();
+    return;
+  }
 
+  DB.Article.findAll({
+    where: {
+      title: article.title,
+      author: article.author,
+    },
+  }).then((data) => {
+    const art = data[0];
+    const articleID = art.id;
+
+    DB.Comment.create({
+      text,
+      articleID,
+      userID: user.id,
+      articleTitle: art.title,
+      articleAuthor: art.author,
+      username: user.username,
+    }).then((doc) => {
+      DB.userComments.create({
+        userID: user.id,
+        commentID: doc.id,
+      });
+
+      DB.articleComments.create({
+        articleID,
+        commentID: doc.id,
+      });
+      DB.User.update(
+        { commentCount: user.commentCount },
+        {
+          where: {
+            id: user.id,
+          },
+        },
+      );
+      res.send(true);
+    });
+  });
+});
+
+app.post('/comments/getAll', (req, res) => {
+  const { articles } = req.body;
+  const authors = [];
+  const titles = [];
+  for (let i = 0; i < articles.length; i += 1) {
+    authors.push(articles[i].author);
+    authors.push(articles[i].title);
+  }
+  DB.Article.findAll({
+    where: {
+      author: {
+        [DB.Op.or]: authors,
+      },
+      title: {
+        [DB.Op.or]: titles,
+      },
+    },
+  }).then((results) => {
+    const articleIDs = [];
+    for (let i = 0; i < results.length; i += 1) {
+      articleIDs.push(results[i].id);
+    }
+    DB.Comment.findAll({
+      where: {
+        articleID: {
+          [DB.Op.or]: articleIDs,
+        },
+      },
+    }).then((comments) => {
+      res.send(comments);
+    });
+  });
+});
 
 module.exports = app;

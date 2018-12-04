@@ -72,6 +72,22 @@ const Comment = sequelize.define('comment', {
     type: Sequelize.STRING(1000),
     allowNull: false,
   },
+
+  articleAuthor: {
+    type: Sequelize.TEXT,
+    allowNull: false,
+  },
+
+  articleTitle: {
+    type: Sequelize.TEXT,
+    allowNull: false,
+  },
+
+  username: {
+    type: Sequelize.TEXT,
+    allowNull: false,
+  },
+
   articleID: {
     type: Sequelize.BIGINT,
     allowNull: false,
@@ -110,9 +126,51 @@ const savedArticles = sequelize.define('saved_articles', {
   },
 });
 
+const userComments = sequelize.define('user_comments', {
+  userID: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id',
+    },
+  },
+
+  commentID: {
+    type: Sequelize.BIGINT,
+    allowNull: false,
+    references: {
+      model: Comment,
+      key: 'id',
+    },
+  },
+});
+
+const articleComments = sequelize.define('article_comments', {
+  articleID: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: Article,
+      key: 'id',
+    },
+  },
+
+  commentID: {
+    type: Sequelize.BIGINT,
+    allowNull: false,
+    references: {
+      model: Comment,
+      key: 'id',
+    },
+  },
+});
+
 module.exports.User = User;
 module.exports.Article = Article;
 module.exports.Comment = Comment;
 module.exports.savedArticles = savedArticles;
+module.exports.userComments = userComments;
+module.exports.articleComments = articleComments;
 module.exports.sequelize = sequelize;
 module.exports.Op = Sequelize.Op;

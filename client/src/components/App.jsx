@@ -33,7 +33,34 @@ class App extends React.Component {
     axios.get(`/topHeadlines/${topic}`)
       .then((data) => {
         const articles = data.data;
-        this.setState({ articles });
+        axios.post('/comments/getAll', {
+          articles,
+        }).then((res) => {
+          const hash = {};
+          const comments = res.data;
+          for (let i = 0; i < comments.length; i += 1) {
+            const hashArt = comments[i].articleTitle;
+            if (hash[hashArt] === undefined) {
+              hash[hashArt] = [{
+                text: comments[i].text,
+                author: comments[i].username,
+              }];
+            } else {
+              hash[hashArt].push({
+                text: comments[i].text,
+                author: comments[i].username,
+              });
+            }
+          }
+          for (let i = 0; i < articles.length; i += 1) {
+            if (hash[articles[i].title] === undefined) {
+              articles[i].comments = [];
+            } else {
+              articles[i].comments = hash[articles[i].title];
+            }
+          }
+          this.setState({ articles });
+        });
       });
   }
 
@@ -42,7 +69,34 @@ class App extends React.Component {
     axios.get(`/topHeadlines/${newTopic}`)
       .then((data) => {
         const articles = data.data;
-        this.setState({ articles, topic: newTopic });
+        axios.post('/comments/getAll', {
+          articles,
+        }).then((res) => {
+          const hash = {};
+          const comments = res.data;
+          for (let i = 0; i < comments.length; i += 1) {
+            const hashArt = comments[i].articleTitle;
+            if (hash[hashArt] === undefined) {
+              hash[hashArt] = [{
+                text: comments[i].text,
+                author: comments[i].username,
+              }];
+            } else {
+              hash[hashArt].push({
+                text: comments[i].text,
+                author: comments[i].username,
+              });
+            }
+          }
+          for (let i = 0; i < articles.length; i += 1) {
+            if (hash[articles[i].title] === undefined) {
+              articles[i].comments = [];
+            } else {
+              articles[i].comments = hash[articles[i].title];
+            }
+          }
+          this.setState({ articles, topic: newTopic });
+        });
       });
   }
 
@@ -68,7 +122,7 @@ class App extends React.Component {
     const newState = this.state;
     const article = newState.articles[index];
     if (user === false) {
-      alert('must be signed in to save comments!');
+      alert('must be signed in to save articles!');
     } else {
       axios.post('/articles/save', {
         user,
@@ -76,10 +130,11 @@ class App extends React.Component {
       }).then(() => {
         newState.articles[index].saved = true;
         axios.get(`/users/${user.id}/savedArticles`)
-        .then((docs) => {
-          newState.saved = docs.data;
-          this.setState(newState);
-        });
+          .then((docs) => {
+            newState.saved = docs.data;
+            newState.user.saveCount += 1;
+            this.setState(newState);
+          });
       }).catch((err) => {
         alert('uh oh, something went wrong');
         console.log(err);
@@ -97,6 +152,7 @@ class App extends React.Component {
       }).then((loggedIn) => {
         if (loggedIn.data !== false) {
           const user = loggedIn.data[0];
+          console.log(user);
           this.setState({ user });
           axios.get(`/users/${user.id}/savedArticles`)
             .then((docs) => {
@@ -109,11 +165,35 @@ class App extends React.Component {
 
   addComment(index) {
     const text = document.getElementById(`add_comment_${index}`).value;
-    axios.post('/comments/newComment', {
-      content: text
-    }).then(data => {
-      console.log(data);
-    })
+    const { user, articles } = this.state;
+    const article = articles[index];
+    if (article.comments === undefined) {
+      article.comments = [{
+        text,
+        author: user.username,
+      }];
+    } else {
+      article.comments.push({
+        text,
+        author: user.username,
+      });
+    }
+
+    if (user === false) {
+      alert('must be signed in to comment!');
+    } else {
+      user.commentCount += 1;
+      axios.post('/comments/newComment', {
+        text,
+        user,
+        article,
+      }).then(() => {
+        this.setState({
+          articles,
+          user,
+        });
+      });
+    }
   }
 
   render() {

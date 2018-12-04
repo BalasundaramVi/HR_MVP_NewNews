@@ -224,7 +224,7 @@ li {
 }
 
 svg.saved_article {
-  background-color: rgba(0, 0, 255, 0.5);
+  background-color: rgba(0, 0, 255, 0.3);
 }
 
 .user_interact {
@@ -443,4 +443,36 @@ svg.saved_article {
 .save_icon:hover, .comment_icon:hover {
   background-color: rgba(0, 0, 255, 0.2);
   cursor: pointer;
+}
+
+/***** Comments COMPONENT STYLES *****/
+.comment_list {
+  margin: 0;
+  padding: 0;
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
+.comment {
+  padding: 5px 10px;
+  border: 1px dashed black;
+}
+
+.comment_text {
+  display: inline-block;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 70%
+};
+
+.comment_author {
+  display: inline-block;
+  margin: 0;
+  float: right;
+  width: 25%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.author_block {
+  display: inline-block;
+  float: right;
 }
