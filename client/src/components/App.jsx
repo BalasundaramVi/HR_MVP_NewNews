@@ -17,6 +17,7 @@ class App extends React.Component {
     this.addUser = this.addUser.bind(this);
     this.signIn = this.signIn.bind(this);
     this.saveArticle = this.saveArticle.bind(this);
+    this.addComment = this.addComment.bind(this);
 
     this.state = {
       topic: 'general',
@@ -106,6 +107,15 @@ class App extends React.Component {
     }
   }
 
+  addComment(index) {
+    const text = document.getElementById(`add_comment_${index}`).value;
+    axios.post('/comments/newComment', {
+      content: text
+    }).then(data => {
+      console.log(data);
+    })
+  }
+
   render() {
     const {
       topic, articles, signup, user, saved,
@@ -118,7 +128,7 @@ class App extends React.Component {
           {user === false ? <SignupBlurb signup={signup} addUser={this.addUser} /> : '' }
         </div>
         <div id="feed">
-          <Feed save={this.saveArticle} saved={saved} articles={articles} />
+          <Feed save={this.saveArticle} addComment={this.addComment} saved={saved} articles={articles} />
         </div>
         {(signup && (user === false)) ? <Signup addUser={this.addUser} /> : false}
       </div>

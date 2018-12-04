@@ -153,7 +153,7 @@ app.post('/articles/save', (req, res) => {
     where: {
       title: article.title,
       author: article.author,
-    }
+    },
   }).then((data) => {
     const articleID = data[0].id;
     DB.savedArticles.create({
@@ -163,10 +163,18 @@ app.post('/articles/save', (req, res) => {
       res.send(doc);
     }).catch((err) => {
       res.send(err);
-    })
+    });
   }).catch((error) => {
     res.send(error);
-  })
+  });
+});
+
+// ARTICLE MANAGEMENT
+app.post('/comments/newComment', (req, res) => {
+  const { content } = req.body;
+  // TO-DO
+  res.send();
 })
+
 
 module.exports = app;
