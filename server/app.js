@@ -88,4 +88,28 @@ app.post('/users/login', (req, res) => {
   });
 });
 
+// ARTICLE MANAGEMENT
+app.post('/articles/save', (req, res) => {
+  const userID = req.body.user.id;
+  const article = req.body.article;
+  DB.Article.findAll({
+    where: {
+      title: article.title,
+      author: article.author,
+    }
+  }).then((data) => {
+    articleID = data[0].id;
+    DB.savedArticles.create({
+      userID,
+      articleID,
+    }).then((doc) => {
+      res.send(doc);
+    }).catch((err) => {
+      res.send(err);
+    })
+  }).catch((error) => {
+    res.send(error);
+  })
+})
+
 module.exports = app;

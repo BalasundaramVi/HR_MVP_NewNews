@@ -16,6 +16,7 @@ class App extends React.Component {
     this.search = this.search.bind(this);
     this.addUser = this.addUser.bind(this);
     this.signIn = this.signIn.bind(this);
+    this.saveArticle = this.saveArticle.bind(this);
 
     this.state = {
       topic: 'general',
@@ -60,6 +61,27 @@ class App extends React.Component {
     }
   }
 
+  saveArticle(index) {
+    const { user } = this.state;
+    const newState = this.state;
+    newState.articles[index].saved = true;
+    const article = newState.articles[index];
+    if (user === false) {
+      alert('must be signed in to save comments!');
+    } else {
+      axios.post('/articles/save', {
+        user,
+        article,
+      }).then((data) => {
+        this.setState(newState);
+        console.log(newState);
+      }).catch((err) => {
+        alert('uh oh, something went wrong');
+        console.log(err);
+      })
+    }
+  }
+
   signIn(e) {
     const username = document.getElementById('username_input').value;
     const password = document.getElementById('password_input').value;
@@ -88,7 +110,7 @@ class App extends React.Component {
           {user === false ? <SignupBlurb signup={signup} addUser={this.addUser} /> : '' }
         </div>
         <div id="feed">
-          <Feed articles={articles} />
+          <Feed save={this.saveArticle} articles={articles} />
         </div>
         {(signup && (user === false)) ? <Signup addUser={this.addUser} /> : false}
       </div>
