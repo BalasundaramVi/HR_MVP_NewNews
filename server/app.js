@@ -1,5 +1,4 @@
 const express = require('express');
-const Promise = require('bluebird');
 
 const path = require('path');
 const parser = require('body-parser');
@@ -113,13 +112,13 @@ app.post('/users/login', (req, res) => {
   });
 });
 
-const getArticlesByID = (id) => {
-  return DB.Article.findAll({
-    where: {
-      id,
-    },
-  }).then(data => (data[0]));
-};
+// const getArticlesByID = (id) => {
+//   return DB.Article.findAll({
+//     where: {
+//       id,
+//     },
+//   }).then(data => (data[0]));
+// };
 
 app.get('/users/:id/savedArticles', (req, res) => {
   const { id } = req.params;
@@ -136,14 +135,8 @@ app.get('/users/:id/savedArticles', (req, res) => {
     if (articleIDs.length === 0) {
       res.send([]);
     } else {
-      DB.User.update(
-        { saveCount: results.length },
-        {
-          where: {
-            id,
-          },
-        },
-      );
+      DB.User.update({ saveCount: results.length },
+        { where: { id } });
       DB.Article.findAll({
         where: {
           id: {
@@ -216,14 +209,8 @@ app.post('/comments/newComment', (req, res) => {
         articleID,
         commentID: doc.id,
       });
-      DB.User.update(
-        { commentCount: user.commentCount },
-        {
-          where: {
-            id: user.id,
-          },
-        },
-      );
+      DB.User.update({ commentCount: user.commentCount },
+        { where: { id: user.id } });
       res.send(true);
     });
   });
