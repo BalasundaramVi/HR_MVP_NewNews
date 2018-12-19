@@ -125,8 +125,8 @@ li {
 #feed {
   width: 800px;
   margin: auto;
-  margin-left: 30%;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
 }
 
 .article_list {
